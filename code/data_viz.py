@@ -18,8 +18,8 @@ import pandas as pd
 
 # ── Defaults (override via CLI) ───────────────────────────────────────────────
 CSV_IN         = "/Users/lukewescott/Documents/dev_link/automate-splunk-suppression/data/synthetic_data/notables.csv"
-LOOKBACK_DAYS  = 30           # rolling window
-MIN_CLUSTER    = 5            # min alerts to consider “noisy”
+LOOKBACK_DAYS  = 30
+MIN_CLUSTER    = 2
 GROUP_COLS = ["src", "dest", "user", "signature", "severity"]
 # ──────────────────────────────────────────────────────────────────────────────
 

@@ -22,11 +22,11 @@ import pandas as pd
 
 # ── CONFIG ────────────────────────────────────────────────────────────────────
 ROWS_DEFAULT           = 20_000          # baseline # of rows to emit
-PROOF_DUPLICATE_RATIO  = 0.05            # pct. rows that are perfect dupes
-CSV_OUT                = Path("notables.csv")
+PROOF_DUPLICATE_RATIO  = 0.50          # pct. rows that are perfect dupes
+CSV_OUT                = Path("/Users/lukewescott/Documents/dev_link/automate-splunk-suppression/data/synthetic_data/notables.csv")
 
 SRC_NET                = ipaddress.ip_network("10.0.0.0/16")
-DEST_NET               = ipaddress.ip_network("192.168.0.0/16")
+DEST_NET               = [f"WARCRT\\COMP{i:03}" for i in range(1, 50)]
 SIGNATURES             = [
     "EICAR-TEST-FILE", "Meterpreter Beacon", "Cobalt Strike Loader",
     "Unknown Hash Hit", "Suspicious PowerShell", "Ransomware Behaviour"
@@ -38,7 +38,7 @@ FILENAMES              = [
     "install.ps1", "invoice.docx", "setup.msi"
 ]
 SEVERITIES             = ["low", "medium", "high", "critical"]
-USERS                  = [f"CORP\\user{i:03}" for i in range(1, 201)]
+USERS                  = [f"WARCRT\\user{i:03}" for i in range(1, 201)]
 
 STATUS_WEIGHTS = {
     "closed without escalation": 0.8,
@@ -59,7 +59,7 @@ def synth_row(day_offset: int) -> dict[str, str]:
     return {
         "_time":        event_time,
         "src":          random_ip(SRC_NET),
-        "dest":         random_ip(DEST_NET),
+        "dest":         random.choice(DEST_NET),
         "signature":    random.choice(SIGNATURES),
         "category":     random.choice(CATEGORIES),
         "file_name":    random.choice(FILENAMES),
